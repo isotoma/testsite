@@ -1,0 +1,53 @@
+#! /usr/bin/env python
+from optparse import OptionParser
+import os
+import subprocess
+import sys
+
+
+def get_version(path):
+    try :
+        p = subprocess.Popen([sys.executable, "setup.py", "-V"], stdout=subprocess.PIPE, cwd=path)
+        o, e = p.communicate()
+        return o.strip()
+    except Exception, e:
+        return "bootstrap"
+
+parser = OptionParser()
+parser.add_option("-p", "--project", dest="project", help = "Name of the project")
+parser.add_option("-e", "--environment", dest="environment",
+                  help="What kind of deployment", default="dev")
+parser.add_option("-c", "--compileegg", dest="egg")
+options, args = parser.parse_args()
+
+if options.project:
+    version = get_version("src/%s" % options.project.upper())
+else:
+    version = "bootstrap"
+
+if options.environment != "dev":
+    template = "[buildout]\n" \
+               "extends =\n" \
+               "    crane/base.cfg\n" \
+               "    crane/fullstack.cfg\n" \
+               "    crane/environment/%(environment)s/environment.cfg\n"
+    if options.egg:
+        template += "find-links += %s \n" % options.egg
+    template += "[versions]\n" \
+                "%s = %s" % (options.project, version)
+        
+
+else:
+    template = "[buildout]\n"  \
+               "extends =\n" \
+               "    crane/base.cfg\n" \
+
+
+
+print "Configuring to install version", version
+
+open("buildout.cfg", "w").write(template % {
+    "environment":options.environment,
+    "cwd": os.getcwd(),
+    "version": version,
+})
