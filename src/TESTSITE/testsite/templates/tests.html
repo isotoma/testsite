@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block content %}
+Tests
+<ul>
+    {% for test in mbox.tests %}
+    <li><a href="{% url test_edit project.name flavour.name mbox.name test.name %}">{{ test }}</a></li>
+    {% endfor %}
+</ul>
+
+{% endblock content %}

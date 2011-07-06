@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1>{{ project.name }}</h1>
+
+{% if project.needs_update %}
+<div id="update_warning">
+    <p>The project is out of date</p>
+        <form action="." method = "POST">
+        {% csrf_token %}
+        <input name="update" type="submit" value="Update"/>
+    </form>
+</div>
+
+<ul>
+    {% for flavour in project.get_test_flavours %}
+    <li><a href="{{ flavour }}">{{ flavour }}</a></li>
+    {% endfor %}
+</ul>
+
+{% endif %}
+
+{% endblock content %}

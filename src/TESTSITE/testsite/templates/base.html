@@ -1,0 +1,27 @@
+<html>
+
+<body>
+
+{% if messages %}
+<ul class="messages">
+    {% for message in messages %}
+    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+    {% endfor %}
+</ul>
+{% endif %}
+
+{% if local_changes %}
+<div>
+<form action="{% url projects project.name %}" method="POST">
+    {% csrf_token %}
+    <label>Commit Message</label><input type="text" name="commit_message" />
+    <input name="commit" type="submit">
+</form>
+</div>
+{% endif %}
+
+{% block content %}
+{% endblock content %}
+</body>
+
+</html>

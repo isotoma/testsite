@@ -1,0 +1,9 @@
+<test>
+  <name>{{ name }}</name>
+  <story_id>{{ story_id }}</story_id>
+  <summary>{{ summary }}</summary>
+  <steps>{{ steps }}</steps>
+  <expected_result>{{ expected_result }}</expected_result>
+  <priority>{{ priority }}</priority>
+  <automated_test_id>{{ automated_test_id }}</automated_test_id>
+</test>

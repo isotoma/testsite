@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<form action="." method="POST">
+{% csrf_token %}
+    <label>Foo</label><input id = "story_id" name = "story_id" type="text" value = "{{ test.story_id }}"></input>
+    <label>Foo</label><input id = "summary" name = "summary" type="text" value = "{{ test.summary }}"></input>
+    <label>Foo</label><textarea id = "steps" name = "steps" >{{ test.steps }}</textarea>
+    <label>Foo</label><textarea id = "expected_result" name = "expected_result" >{{ test.expected_result }}</textarea>
+    <label>Foo</label><input id = "priority" name = "priority" type="text" value = "{{ test.priority }}"></input>
+    <label>Foo</label><input id = "automated_test_id" name = "automated_test_id" type="text" value = "{{ test.automated_test_id }}"></input>
+    <input type="submit">
+</form>
+
+{% endblock content %}

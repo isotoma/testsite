@@ -12,8 +12,10 @@ from django.http import HttpResponseNotFound, HttpResponseServerError
 from django.template.loader import render_to_string
 
 # Uncomment the next two lines to enable the admin:
-# from django.contrib import admin
-# admin.autodiscover()
+from django.contrib import admin
+admin.autodiscover()
+
+from testsite.main import views
 
 urlpatterns = patterns('',
 
@@ -22,7 +24,7 @@ urlpatterns = patterns('',
     # (r'^admin/doc/', include('django.contrib.admindocs.urls')),
 
     # Uncomment the next line to enable the admin:
-    # (r'^admin/', include(admin.site.urls)),
+    (r'^admin/', include(admin.site.urls)),
         
     # Prevent search engine spiders from generating 404s when looking for a 
     # robots.txt. Obviously remove these if using actual files
@@ -34,6 +36,12 @@ urlpatterns = patterns('',
     # actually is. Many user agents (RIM based blackberry browsers, old 
     # versions of IE etc) lazily look in the root first, raising a 404
     (r'^favicon\.ico$', lambda r: HttpResponseRedirect('/static/images/favicon.ico')),
+    
+    (r'^$', views.home),
+    url(r'^projects/(?P<project>\w+)/$', views.projects, name = "projects"),
+    url(r'^projects/(?P<project>\w+)/(?P<flavour>\w+)/$', views.flavour_view, name = "flavour"),
+    url(r'^projects/(?P<project>\w+)/(?P<flavour>\w+)/(?P<mbox>\w+)/$', views.tests_view, name = "tests"),
+    url(r'^projects/(?P<project>\w+)/(?P<flavour>\w+)/(?P<mbox>\w+)/(?P<test>[-&\w ]+)/$', views.test_edit, name = "test_edit")
 )
 
 # Serve static content through Django.
