@@ -25,10 +25,9 @@ class TestProject(models.Model):
         
         svn_client = get_svn_client()
         
-        # TODO: This needs figuring out.
-        # Can't work out how to get the remote revision number
+        statuses = svn_client.status(self.project_dir, get_all = False, update = True)
         
-        return True
+        return len(statuses)
     
     def update_svn(self):
         

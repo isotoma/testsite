@@ -13,12 +13,14 @@
     </form>
 </div>
 
+{% endif %}
+
 <ul>
     {% for flavour in project.get_test_flavours %}
     <li><a href="{{ flavour }}">{{ flavour }}</a></li>
     {% endfor %}
 </ul>
 
-{% endif %}
+
 
 {% endblock content %}
