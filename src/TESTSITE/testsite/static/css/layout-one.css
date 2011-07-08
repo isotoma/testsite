@@ -192,6 +192,8 @@ TEXTAREA {
   padding: 8px;
   overflow: hidden;
   vertical-align: bottom;
+  width: 300px;
+  height: 350px;
 }
 SELECT {
   margin: 4px;
@@ -202,7 +204,7 @@ INPUT {
   vertical-align: top;
 }
 INPUT[type="text"], INPUT[type="password"] {
-  width: 208px;
+  width: 300px;
 }
 .pageform .checkbox LABEL,
 .pageform .radio LABEL,
