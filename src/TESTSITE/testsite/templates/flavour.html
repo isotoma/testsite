@@ -5,16 +5,16 @@
 
 <h1>{{ flavour }}</h1>
 
-<p>Download Test Script</p>
-<form action="." method="POST">
-    {% csrf_token %}
-    <input type="submit" name="CSV" value="CSV"/>
-</form>
-
 <ul>
     {% for mbox in flavour.mbox %}
     <li><a href="{% url tests mbox.flavour.project.name mbox.flavour.name mbox.name %}">{{ mbox }}</a></li>
     {% endfor %}
 </ul>
+
+<p>Download Test Script</p>
+<form action="." method="POST">
+    {% csrf_token %}
+    <input type="submit" name="CSV" value="CSV"/>
+</form>
 
 {% endblock %}
