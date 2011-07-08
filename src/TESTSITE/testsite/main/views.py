@@ -7,7 +7,7 @@ from django.template import RequestContext
 from django.core.urlresolvers import reverse
 
 from models import TestProject
-from othermodels import Flavour
+from othermodels import Flavour, XMLTest
 
 def _check_for_local_changes(request, project):
     if project.check_for_local_changes():
@@ -93,5 +93,27 @@ def test_edit(request, project, flavour, mbox, test):
         test.save()
         return redirect(reverse('tests', kwargs = {'project':project.name, 'flavour':flavour.name, 'mbox':mbox.name}))
         
+    
+    return render_to_response('test_edit.html', locals(), context_instance = RequestContext(request))
+
+def test_new(request,project, flavour, mbox):
+    
+    # this should be the 404 shortcut thing
+    project = TestProject.objects.get(name = project)
+    flavour = project.get_flavour(flavour)
+    mbox = flavour.get_specific_mbox(mbox)
+    
+    new_mode = True
+    
+    if request.method == 'POST':
+        test = XMLTest(request.POST['test_name'], mbox, new = True)
+        test.story_id = request.POST['story_id']
+        test.summary = request.POST['summary']
+        test.steps = request.POST['steps']
+        test.expected_result = request.POST['expected_result']
+        test.priority = request.POST['priority']
+        test.automated_test_id = request.POST['automated_test_id']
+        test.save()
+        return redirect(reverse('tests', kwargs = {'project':project.name, 'flavour':flavour.name, 'mbox':mbox.name}))
     
     return render_to_response('test_edit.html', locals(), context_instance = RequestContext(request))

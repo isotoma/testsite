@@ -4,8 +4,18 @@ from csv import writer
 import tempfile
 import codecs
 
+import pysvn
+
 from django.template.loader import get_template
 from django.template import Context
+
+def get_svn_client():
+    svn_client = pysvn.Client()
+    svn_client.callback_get_login = get_svn_details
+    return svn_client
+
+def get_svn_details(realm, username, may_save):
+    return True, settings.svnuser, settings.svnpass, False
 
 def get_xml_doc(path):
     """ Open the xml file from disk and return it as an etree """
@@ -114,18 +124,19 @@ class mbox(object):
     
 class XMLTest(object):
     
-    def __init__(self, name, mbox):
+    def __init__(self, name, mbox, new = False):
         self.name = name.strip()
         self.mbox = mbox
         
-        xml_doc = get_xml_doc(self.path)
-        xpath = xml_doc.xpath('//test')[0]
-        self.story_id = _get_value(xpath, 'story_id')
-        self.summary = _get_value(xpath, 'summary')
-        self.steps = _get_value(xpath, 'steps')
-        self.expected_result = _get_value(xpath, 'expected_result')
-        self.priority = _get_value(xpath, 'priority')
-        self.automated_test_id = _get_value(xpath, 'automated_test_id')
+        if not new:
+            xml_doc = get_xml_doc(self.path)
+            xpath = xml_doc.xpath('//test')[0]
+            self.story_id = _get_value(xpath, 'story_id')
+            self.summary = _get_value(xpath, 'summary')
+            self.steps = _get_value(xpath, 'steps')
+            self.expected_result = _get_value(xpath, 'expected_result')
+            self.priority = _get_value(xpath, 'priority')
+            self.automated_test_id = _get_value(xpath, 'automated_test_id')
         
     @property
     def path(self):
@@ -145,4 +156,12 @@ class XMLTest(object):
         f.flush()
         f.close()
         
+        self.check_for_svn_addition()
+        
+    def check_for_svn_addition(self):
+        svn_client = get_svn_client()
+        info = svn_client.status(self.path)[0]
+        if info['text_status'] == pysvn.wc_status_kind.unversioned:
+            svn_client.add(self.path)
+
     

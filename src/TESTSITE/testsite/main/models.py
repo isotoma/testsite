@@ -4,17 +4,9 @@ import os
 from django.db import models
 from django.contrib import admin
 
-from othermodels import Flavour
+from othermodels import Flavour, get_svn_client, get_svn_details
 import testsite.settings as settings
 
-def get_svn_details(realm, username, may_save):
-    return True, settings.svnuser, settings.svnpass, False
-
-
-def get_svn_client():
-    svn_client = pysvn.Client()
-    svn_client.callback_get_login = get_svn_details
-    return svn_client
 
 class TestProject(models.Model):
     

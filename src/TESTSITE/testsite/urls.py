@@ -41,7 +41,9 @@ urlpatterns = patterns('',
     url(r'^projects/(?P<project>\w+)/$', views.projects, name = "projects"),
     url(r'^projects/(?P<project>\w+)/(?P<flavour>\w+)/$', views.flavour_view, name = "flavour"),
     url(r'^projects/(?P<project>\w+)/(?P<flavour>\w+)/(?P<mbox>\w+)/$', views.tests_view, name = "tests"),
-    url(r'^projects/(?P<project>\w+)/(?P<flavour>\w+)/(?P<mbox>\w+)/(?P<test>[-&\w ]+)/$', views.test_edit, name = "test_edit")
+    url(r'^projects/(?P<project>\w+)/(?P<flavour>\w+)/(?P<mbox>\w+)/new/$', views.test_new, name = "test_new"),
+    url(r'^projects/(?P<project>\w+)/(?P<flavour>\w+)/(?P<mbox>\w+)/(?P<test>[-&\w ]+)/$', views.test_edit, name = "test_edit"),
+    
 )
 
 # Serve static content through Django.

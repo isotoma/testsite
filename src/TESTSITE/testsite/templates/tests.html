@@ -2,6 +2,9 @@
 
 {% block content %}
 Tests
+
+<a href="{% url test_new project.name flavour.name mbox.name %}">Add new test</a>
+
 <ul>
     {% for test in mbox.tests %}
     <li><a href="{% url test_edit project.name flavour.name mbox.name test.name %}">{{ test }}</a></li>
