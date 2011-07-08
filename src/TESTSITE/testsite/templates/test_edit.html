@@ -14,7 +14,11 @@
     <label>Expected Result:</label><textarea id = "expected_result" name = "expected_result" >{{ test.expected_result }}</textarea>
     <label>Priority</label><input id = "priority" name = "priority" type="text" value = "{{ test.priority }}"></input>
     <label>Automated Test ID</label><input id = "automated_test_id" name = "automated_test_id" type="text" value = "{{ test.automated_test_id }}"></input>
-    <input type="submit">
+    <input type="submit" name = "edit" value = "Edit">
+    
+    <div>
+    <input type="submit" name = "delete" value = "Delete">
+    </div>
 </form>
 
 {% endblock content %}

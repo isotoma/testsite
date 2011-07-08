@@ -84,14 +84,20 @@ def test_edit(request, project, flavour, mbox, test):
     test = mbox.get_specific_test(test)
     
     if request.method == 'POST':
-        test.story_id = request.POST['story_id']
-        test.summary = request.POST['summary']
-        test.steps = request.POST['steps']
-        test.expected_result = request.POST['expected_result']
-        test.priority = request.POST['priority']
-        test.automated_test_id = request.POST['automated_test_id']
-        test.save()
+        
+        if request.POST.get('edit', None):
+            test.story_id = request.POST['story_id']
+            test.summary = request.POST['summary']
+            test.steps = request.POST['steps']
+            test.expected_result = request.POST['expected_result']
+            test.priority = request.POST['priority']
+            test.automated_test_id = request.POST['automated_test_id']
+            test.save()
+
+        elif request.POST.get('delete', None):
+            test.delete()
         return redirect(reverse('tests', kwargs = {'project':project.name, 'flavour':flavour.name, 'mbox':mbox.name}))
+        
         
     
     return render_to_response('test_edit.html', locals(), context_instance = RequestContext(request))

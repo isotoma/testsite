@@ -163,5 +163,11 @@ class XMLTest(object):
         info = svn_client.status(self.path)[0]
         if info['text_status'] == pysvn.wc_status_kind.unversioned:
             svn_client.add(self.path)
+            
+    def delete(self):
+        
+        svn_client = get_svn_client()
+        svn_client.remove(self.path, force = True)
+        
 
     
