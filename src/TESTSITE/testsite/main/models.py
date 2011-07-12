@@ -23,6 +23,9 @@ class TestProject(models.Model):
     
     def needs_update(self):
         
+        if not os.path.exists(self.project_dir):
+            return True
+        
         svn_client = get_svn_client()
         
         statuses = svn_client.status(self.project_dir, get_all = False, update = True)
@@ -34,7 +37,7 @@ class TestProject(models.Model):
         # check that the checkout dir exists
         
         if not os.path.exists(self.project_dir):
-            os.mkdir(self.project_dir)
+            os.makedirs(self.project_dir)
         
         # get a checkout
         svn_client = get_svn_client()
@@ -46,6 +49,9 @@ class TestProject(models.Model):
             svn_client.checkout(self.svn_url, self.project_dir)
             
     def get_test_flavours(self):
+        
+        if not os.path.exists(self.project_dir):
+            return []
         
         files = os.listdir(self.project_dir)
         xml_files = [f[:-4] for f in files if f.endswith('.xml')]

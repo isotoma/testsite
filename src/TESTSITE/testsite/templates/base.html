@@ -25,6 +25,23 @@
                 <img src="/static/images/iso-logo-35.png" width="35" height="47" alt="Iso Logo 35" id="logo">
                 <h1>Test Update Site</h1>
             </div>
+            {% if messages %}
+<ul class="messages">
+    {% for message in messages %}
+    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+    {% endfor %}
+</ul>
+{% endif %}
+
+{% if local_changes %}
+<div>
+<form action="{% url projects project.name %}" method="POST">
+    {% csrf_token %}
+    <label>Commit Message</label><input type="text" name="commit_message" />
+    <input name="commit" type="submit">
+</form>
+</div>
+{% endif %}
             <div id="nav" class="clearfix">
             </div>
             <div id="content" class="clearfix">
